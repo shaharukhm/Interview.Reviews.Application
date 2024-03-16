@@ -1,0 +1,114 @@
+﻿@model DataModel.Library.UserModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = null; // To remove the default layout
+}
+
+
+<style>
+    body {
+        background-image: url('../../Images/Interview_App_1.jpg');
+        /* Adjust background properties as needed */
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Edit User</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Additional CSS for custom styles -->
+    <style>
+        .register-box {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Adjust shadow as needed */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff; /* White background */
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Interview Preparation</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                @*<li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>*@
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("LogOut","Login")">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container mt-4">
+        <div class="row justify-content-md-center">
+            <div class="col-md-6">
+                <div class="register-box">
+                    <h2 style="text-align:center">Update User</h2>
+                    @using (Html.BeginForm("Edit", "User", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+
+                        <div class="form-group">
+                           @Html.HiddenFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Update</button>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

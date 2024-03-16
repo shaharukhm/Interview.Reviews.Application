@@ -1,0 +1,146 @@
+﻿@model IEnumerable<DataModel.Library.UserModel>
+
+@{
+    Layout = null;
+    ViewBag.Title = "UserDetails";
+    // Get the first user in the collection to retrieve the user name
+    var firstUser = Model.FirstOrDefault();
+    string userName = firstUser != null ? firstUser.FullName : string.Empty;
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>User Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Additional CSS for custom styles -->
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+    $(document).ready(function () {
+        $(".password-placeholder").click(function () {
+            var $passwordText = $(this).next(".password-text");
+            $passwordText.show(); // Show the password text
+
+            // Hide the password text after 10 seconds
+            setTimeout(function () {
+                $passwordText.hide(); // Hide the password text
+            }, 4000); // 4000 milliseconds = 4 seconds
+        });
+        var message = '@TempData["Message"]';
+        if (message) {
+            // Display toastr notification
+            toastr.options.timeOut = 10000; // 10 seconds
+            toastr.success(message);
+        }
+    });
+    </script>
+</head>
+<style>
+
+    body {
+        background-image: url('../../Images/Interview_App_1.jpg');
+        /* Adjust background properties as needed */
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .card-body {
+        background-color: aliceblue;
+        border-radius: 30px;
+        padding: 25px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Adjust shadow as needed */
+    }
+</style>
+
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Interview Preparation</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                @*<li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>*@
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("LogOut","Login")">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h4>Hello ,  @userName  </h4>
+
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 style="text-align:center" class="card-title">@item.FullName</h2>
+                            <table class="table">
+                                <tr>
+                                    <td><strong>User ID:</strong></td>
+                                    <td>@item.UserId</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Email:</strong></td>
+                                    <td>@item.Email</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Status:</strong></td>
+                                    <td>@item.Status.Status</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date of Birth:</strong></td>
+                                    <td>@item.DateOfBirth.ToShortDateString()</td>
+                                </tr>
+                               
+                                <tr>
+                                    <td><strong>Password:</strong></td>
+                                    <td>
+                                        <div class="password-field">
+                                            <span class="password-placeholder" data-password="@item.Password">🔒</span>
+                                            <span class="password-text" style="display:none;">@item.Password</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("Edit","User", new { id = item.UserId })" class="btn btn-primary" title="Edit">
+                                            <i class="fas fa-edit">  Edit </i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("DeleteUser","User", new { id = item.UserId })" class="btn btn-danger" title="Delete">
+                                            <i class="fas fa-trash-alt">  Delete </i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                   
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>

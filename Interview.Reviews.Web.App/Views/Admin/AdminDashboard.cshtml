@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "AdminDashboard";
+}
+<link href="~/Content/adminDashboard.css" rel="stylesheet" />
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Modern Admin Dashboard</title>
+
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+
+
+
+    <script>
+    $(document).ready(function () {
+        $("#anchor-container a").click(function (e) {
+            e.preventDefault();
+            var action = $(this).data("action");
+           // alert(action);
+            if (action == 'Graduates') {
+                 $.get('@Url.Action("GetGraduateList", "Admin")', function (data) {
+                $("#list-container").html(data);
+                 });
+
+            }
+            else if(action == 'Admins'){
+                  $.get('@Url.Action("GetAdminList", "Admin")', function (data) {
+                $("#list-container").html(data);
+                 });
+            }
+
+            else if (action == 'Users') {
+                 $.get('@Url.Action("GetUserList", "Admin")', function (data) {
+                $("#list-container").html(data);
+                 });
+            }
+            else if (action == 'Reviews'){
+                $.get('@Url.Action("GetReviewList", "Admin")', function (data) {
+                $("#list-container").html(data);
+                 });
+            }
+            // Load list data via AJAX
+
+        });
+
+
+    });
+    </script>
+
+
+</head>
+<body>
+    <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>M<span>odern</span></h3>
+        </div>
+
+        <div class="side-content">
+            <div class="profile">
+                <div class="profile-img bg-img" style="background-image: url(img/3.jpeg)"></div>
+                <h4>Name</h4>
+                <small>Admin</small>
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                        <a href="@Url.Action("AdminDashboard","Admin")" class="active">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("GetAdminDetailById","Admin")">
+                            <span class="las la-user-alt"></span>
+                            <small>Profile</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ForgotPassword","Login")">
+                            <span class="las la-key"></span>
+                            <small>Update Password</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","Review")">
+                            <span class="las la-external-link-alt"></span>
+                            <small>Go To Reviews</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("LogOut","Login")">
+                            <span class="las la-sign-out-alt"></span>
+                            <small>Log Out</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <header style=" margin-top:50px;">
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+
+                @*<div class="header-menu">
+                    <label for="">
+                        <span class="las la-search"></span>
+                    </label>
+
+                    <div class="notify-icon">
+                        <span class="las la-envelope"></span>
+                        <span class="notify">4</span>
+                    </div>
+
+                    <div class="notify-icon">
+                        <span class="las la-bell"></span>
+                        <span class="notify">3</span>*@
+                    @*</div>
+                    <a href="@Url.Action("LogOut","Login")">
+                        <div class="user">
+                            <div class="bg-img" style="background-image: url(img/1.jpeg);"></div>
+
+                            <span class="las la-power-off"></span>
+                            <span style="">Log Out</span>
+                        </div>
+                    </a>
+                </div>*@
+            </div>
+        </header>
+
+
+        <main>
+
+            <div class="page-header">
+                <h1>Dashboard</h1>
+                <small>Home / Dashboard</small>
+            </div>
+
+            <div class="page-content">
+
+                <div class="analytics " id="anchor-container">
+                    <a href="#" data-action="Users">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Users</h4>
+
+                                <span class="las la-user-friends"></span>
+                            </div>
+                            <div class="card-progress">
+                                <h3 style="text-align:center">@ViewBag.TotalUsers</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator one" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-action="Graduates">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Graduates</h4>
+                                <span class="las la-user-friends"></span>
+                                @* <span class="las la-eye"></span>*@
+                            </div>
+                            <div class="card-progress">
+                                <h3 style="text-align:center">@ViewBag.TotalGraduates</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator two" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-action="Admins">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Admins</h4>
+                                <span class="las la-user-friends"></span>
+                            </div>
+                            <div class="card-progress">
+
+                                <h3 style="text-align:center">@ViewBag.TotalAdmins</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator three" style="width: 65%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" data-action="Reviews">
+                        <div class="card">
+                            <div class="card-head">
+                                <h4>Total Reviews</h4>
+                                <span class="las la-user-friends"></span>
+                            </div>
+                            <div class="card-progress">
+                                @* <small>New E-mails received</small>*@
+                                <h3>@ViewBag.TotalReviews</h3>
+                                <div class="card-indicator">
+                                    <div class="indicator four" style="width: 90%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+
+                <div class="records table-responsive">
+
+                  <div id="list-container">
+
+                  </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+</body>
+</html>
+
